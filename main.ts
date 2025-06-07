@@ -27,13 +27,13 @@ namespace V7RC {
         //% block="3"
         channel03 = 2,
         //% block="4"
-        channel04 = 3
+        channel04 = 3,
          //% block="5"
-        channel05 = 4
+        channel05 = 4,
          //% block="6"
-        channel06 = 5
+        channel06 = 5,
          //% block="7"
-        channel07 = 6
+        channel07 = 6,
          //% block="8"
         channel08 = 7
     }
