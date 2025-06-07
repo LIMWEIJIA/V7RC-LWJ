@@ -111,15 +111,15 @@ namespace V7RC {
         return myReturnValue;
     }
 
-    // helper function: map raw 2-digit hex (0x64-0xC7) to 1000-2000
+    // helper function: map raw 2-digit hex (0x64-0xC7) to 1000-1999
    function mapRawToTarget(raw: number): number {
     const rawMin = 0x64;  // 100 decimal
     const rawStop = 0x69; // 105 decimal, stop command
-    const rawMax = 0xC7;  // 200 decimal
+    const rawMax = 0xC7;  // 199 decimal
 
     const targetMin = 1000;
     const targetStop = 1500;
-    const targetMax = 2000;
+    const targetMax = 1999;
 
     if (raw < rawMin) raw = rawMin;
     if (raw > rawMax) raw = rawMax;
