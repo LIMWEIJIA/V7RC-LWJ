@@ -30,13 +30,13 @@ namespace V7RC {
         channel03 = 2,
         //% block="4"
         channel04 = 3,
-         //% block="5"
+        //% block="5"
         channel05 = 4,
-         //% block="6"
+        //% block="6"
         channel06 = 5,
-         //% block="7"
+        //% block="7"
         channel07 = 6,
-         //% block="8"
+        //% block="8"
         channel08 = 7
     }
 
@@ -58,7 +58,7 @@ namespace V7RC {
         bluetooth.onUartDataReceived(serial.delimiters(Delimiters.Hash), function () {
             recvMsg = bluetooth.uartReadUntil(serial.delimiters(Delimiters.Hash));
             tempAct();
-            recvMsg='';
+            recvMsg = '';
         })
     }
 
@@ -97,12 +97,12 @@ namespace V7RC {
                     currentType = "LE2";
                     myReturnValue = true;
                 }
+                break;  // <-- Added missing break here
             case 5:
                 if (recvMsg.includes("SS8")) {
                     currentType = "SS8";
                     myReturnValue = true;
                 }
-                break;
                 break;
             default:
                 myReturnValue = false;
@@ -111,14 +111,32 @@ namespace V7RC {
         return myReturnValue;
     }
 
+    // helper function: map raw 2-digit hex (0x64-0xC7) to 1000-1999
+    function mapRawToTarget(raw: number): number {
+        const rawMin = 0x64;  // 100 decimal
+        const rawMax = 0xC7;  // 199 decimal
+        const targetMin = 1000;
+        const targetMax = 1999;
+
+        if (raw < rawMin) raw = rawMin;
+        if (raw > rawMax) raw = rawMax;
+
+        return Math.floor(((raw - rawMin) * (targetMax - targetMin)) / (rawMax - rawMin) + targetMin);
+    }
+
     //% weight=40
     //% blockId="v7rcChannelInt" block="V7RC code extract from channel:%myChannel to integer"
     export function v7rcChannelInt(myChannel: channel): number {
         let myReturnValue = -1;
-        if (currentType == 'LED' || currentType == 'LE2')
+        if (currentType == 'LED' || currentType == 'LE2') {
             myReturnValue = parseInt('0x' + recvMsg.substr(myChannel * 4 + 3, 4), 16);
-        else
+        } else if (currentType == 'SS8') {
+            // For SS8 mode: 2 hex digits per channel, starting after "SS8" (index 3)
+            let raw = parseInt(recvMsg.substr(3 + myChannel * 2, 2), 16);
+            myReturnValue = mapRawToTarget(raw);
+        } else {
             myReturnValue = parseInt(recvMsg.substr(myChannel * 4 + 3, 4));
+        }
         return myReturnValue;
     }
 
