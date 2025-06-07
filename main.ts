@@ -97,6 +97,12 @@ namespace V7RC {
                     currentType = "LE2";
                     myReturnValue = true;
                 }
+            case 5:
+                if (recvMsg.includes("PRO")) {
+                    currentType = "PRO";
+                    myReturnValue = true;
+                }
+                break;
                 break;
             default:
                 myReturnValue = false;
