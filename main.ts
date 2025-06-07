@@ -112,17 +112,26 @@ namespace V7RC {
     }
 
     // helper function: map raw 2-digit hex (0x64-0xC7) to 1000-1999
-    function mapRawToTarget(raw: number): number {
-        const rawMin = 0x64;  // 100 decimal
-        const rawMax = 0xC7;  // 199 decimal
-        const targetMin = 1000;
-        const targetMax = 1999;
+   function mapRawToTarget(raw: number): number {
+    const rawMin = 0x64;  // 100 decimal
+    const rawStop = 0x69; // 105 decimal, stop command
+    const rawMax = 0xC7;  // 199 decimal
 
-        if (raw < rawMin) raw = rawMin;
-        if (raw > rawMax) raw = rawMax;
+    const targetMin = 1000;
+    const targetStop = 1500;
+    const targetMax = 1999;
 
-        return Math.floor(((raw - rawMin) * (targetMax - targetMin)) / (rawMax - rawMin) + targetMin);
+    if (raw < rawMin) raw = rawMin;
+    if (raw > rawMax) raw = rawMax;
+
+    if (raw <= rawStop) {
+        // Map from rawMin..rawStop to targetMin..targetStop
+        return Math.floor(((raw - rawMin) * (targetStop - targetMin)) / (rawStop - rawMin) + targetMin);
+    } else {
+        // Map from rawStop..rawMax to targetStop..targetMax
+        return Math.floor(((raw - rawStop) * (targetMax - targetStop)) / (rawMax - rawStop) + targetStop);
     }
+}
 
     //% weight=40
     //% blockId="v7rcChannelInt" block="V7RC code extract from channel:%myChannel to integer"
