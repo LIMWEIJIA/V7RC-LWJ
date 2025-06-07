@@ -98,8 +98,8 @@ namespace V7RC {
                     myReturnValue = true;
                 }
             case 5:
-                if (recvMsg.includes("PRO")) {
-                    currentType = "PRO";
+                if (recvMsg.includes("SS8")) {
+                    currentType = "SS8";
                     myReturnValue = true;
                 }
                 break;
