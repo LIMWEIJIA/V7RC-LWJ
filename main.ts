@@ -28,6 +28,10 @@ namespace V7RC {
         channel03 = 2,
         //% block="4"
         channel04 = 3
+         //% block="5"
+        channel05 = 4
+         //% block="6"
+        channel06 = 5
     }
 
     //% weight=90
