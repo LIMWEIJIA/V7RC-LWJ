@@ -16,7 +16,9 @@ namespace V7RC {
         //% block="LED1~4"
         type03 = 3,
         //% block="LED5~8"
-        type04 = 4
+        type04 = 4,
+        //% block="pro"
+        type05 = 5
     }
 
     export enum channel {
